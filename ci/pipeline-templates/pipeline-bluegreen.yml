@@ -6,25 +6,19 @@ groups:
   - map-route
 
 resources:
-
 - name: source-repo
   type: git
   source:
     branch: master
-#    uri: git@github.com:myminseok/articulate.git
     uri: {{git-source-repo-uri}}
-    private_key: {{github-private-key}}
   check_every: 10s # for demo
-
 - name: build-out-repo
   type: git
   source:
     branch: master
-    uri: git@github.com:myminseok/articulate-ci-demo.git
-    private_key: {{github-private-key}}
+    uri: {{git-concourse-repo-uri}}
     disable_ci_skip: true
   check_every: 10s # for demo
-
 - name: PCF
   type: cf
   source:
@@ -34,7 +28,6 @@ resources:
     password: {{deploy-password}}
     skip_cert_check: true
     space: {{pws-space}}
-
 - name: CVE-check
   type: docker-image
   source:
@@ -86,8 +79,6 @@ jobs:
     params:
       manifest: output/manifest.yml
       path: output/demo.jar
-
-
 - name: map-route
   serial: true
   public: true
