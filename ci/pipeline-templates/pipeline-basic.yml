@@ -31,7 +31,7 @@ jobs:
   - get: build-out-repo
     trigger: true
   - task: build
-    file: build-out-repo/ci/build_maven.yml
+    file: build-out-repo/ci/tasks/build_maven.yml
   - put: PCF
     params:
       manifest: source-repo/manifest.yml
