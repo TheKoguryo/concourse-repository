@@ -1,0 +1,66 @@
+#!/bin/bash
+
+set -xe
+
+pwd
+env
+
+cf api $PWS_API --skip-ssl-validation
+
+cf login -u $PWS_USER -p $PWS_PWD -o "$PWS_ORG" -s "$PWS_SPACE"
+
+cf apps
+
+cf routes
+
+export current_app=$(cat ./current-app-info/current-app.txt)
+export next_app=$(cat ./current-app-info/next-app.txt)
+
+#echo "waiting for 1 minute"
+#sleep 60
+
+
+# look for current app and parse instance count
+is_exist_current_app=`cf apps | grep "$PWS_APP_HOSTNAME.$PWS_APP_DOMAIN" | grep "$PWS_APP_SUFFIX\-\-$current_app" |wc -l || true`
+current_app_instance_count=1
+if [ $is_exist_current_app -ne 0 ]
+then
+ echo " current_app exists! "
+ current_app_instance_count=$(cf apps | grep "$PWS_APP_HOSTNAME.$PWS_APP_DOMAIN"  |grep "$PWS_APP_SUFFIX\-\-$current_app" |  awk -F"/" '{print $2} ' |awk '{print $1}') 
+fi
+echo "current_app_instance_count" $current_app_instance_count
+
+
+cf scale "$PWS_APP_SUFFIX--$next_app" -i $current_app_instance_count
+
+# check whether new app instances are all running state
+for i in {1..12}
+do
+	next_app_instance_count=`cf app "$PWS_APP_SUFFIX--$next_app" | grep "running" | wc -l`
+	echo "current $next_app_instance_count"
+	if [ $next_app_instance_count -eq $current_app_instance_count ]
+	then
+		echo "ALL new app '$PWS_APP_SUFFIX--$next_app' instances are all RUNNING state"
+		break
+	fi
+	echo "waiting for ALL new app '$PWS_APP_SUFFIX--$next_app' instances to be RUNNING state"
+	if [ i -eq 12 ]
+	then
+		echo "TIMEOUT! NOT all  new app '$PWS_APP_SUFFIX--$next_app' instances are RUNNING state"
+		exit 1
+	fi
+	sleep 5
+done
+
+
+echo "Mapping main app route to point to $PWS_APP_HOSTNAME--$next_app instance"
+cf map-route "$PWS_APP_SUFFIX--$next_app" $PWS_APP_DOMAIN --hostname $PWS_APP_HOSTNAME
+cf routes
+
+echo "Removing previous service app route that pointed to $PWS_APP_HOSTNAME--$current_app instance"
+set +e
+cf unmap-route "$PWS_APP_SUFFIX--$current_app" $PWS_APP_DOMAIN --hostname $PWS_APP_HOSTNAME
+set -e
+
+echo "Routes updated"
+cf routes
