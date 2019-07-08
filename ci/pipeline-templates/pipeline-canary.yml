@@ -11,18 +11,14 @@ resources:
   source:
     branch: master
     uri: {{git-source-repo-uri}}
-    private_key: {{github-private-key}}
   check_every: 10s # for demo
-
 - name: build-out-repo
   type: git
   source:
     branch: master
-    uri: git@github.com:myminseok/articulate-ci-demo.git
-    private_key: {{github-private-key}}
+    uri: {{git-concourse-repo-uri}}
     disable_ci_skip: true
   check_every: 10s # for demo
-
 - name: PCF
   type: cf
   source:
@@ -32,7 +28,6 @@ resources:
     password: {{deploy-password}}
     skip_cert_check: true
     space: {{pws-space}}
-
 - name: CVE-check
   type: docker-image
   source:
@@ -57,7 +52,6 @@ jobs:
       repository: out-repo
       rebase: true
 #      force: true
-
 - name: canary-test
   serial: true
   public: true
@@ -76,7 +70,6 @@ jobs:
       PWS_USER: {{deploy-username}}
       PWS_PWD: {{deploy-password}}
       PWS_SPACE: {{pws-space}}
-
   - task: prepare-app-manifest-canary
     file: build-out-repo/ci/tasks/app-manifest-prep-canary.yml
     params:
@@ -85,7 +78,6 @@ jobs:
     params:
       manifest: output/manifest.yml
       path: output/demo-canary.jar
-
 - name: roll-out
   serial: true
   public: true
