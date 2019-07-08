@@ -22,7 +22,7 @@ resources:
     space: {{pws-space}}
 
 jobs:
-- name: build&deploy
+- name: build-deploy
   public: true
   serial: true
   plan:
