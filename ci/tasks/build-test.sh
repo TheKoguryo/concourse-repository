@@ -2,7 +2,6 @@
 
 set -xe
 
-
 mkdir -p /root/.m2/repository
 cp -r /app/m2/* /root/.m2/repository/
 
@@ -22,8 +21,6 @@ ls -al ./target
 mkdir -p output
 cp ./target/*.jar ./output/"$BUILD_JAR_NAME"
 ls -al ./output
-
-
 
 git config --global user.email "${git-email}"
 git config --global user.name "${git-name}"
