@@ -106,4 +106,4 @@ jobs:
       PWS_ORG: {{pws-organization}}
       PWS_USER: {{deploy-username}}
       PWS_PWD: {{deploy-password}}
-      PWS_SPACE: {{pws-space}
+      PWS_SPACE: {{pws-space}}
