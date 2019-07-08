@@ -28,9 +28,11 @@ jobs:
   plan:
   - get: source-repo
     trigger: true
+  - get: build-out-repo
+    trigger: true
   - task: build
     file: build-out-repo/ci/build_maven.yml
-  - put: cf-push
+  - put: PCF
     params:
       manifest: source-repo/manifest.yml
       path: build-output/*.jar
