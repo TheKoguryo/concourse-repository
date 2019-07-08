@@ -22,4 +22,4 @@ run:
     whoami
     env
     ls -la
-    sh build-out-repo/ci/tasks/build_maven.sh
+    sh build-out-repo/ci/tasks/build-maven.sh
