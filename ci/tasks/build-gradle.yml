@@ -1,0 +1,26 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+#  source:
+#    repository: 10.193.193.200:5000/gradle
+#    tag: 'latest'
+#    insecure_registries: [ "10.193.193.200:5000" ]
+
+inputs:
+  - name: source-repo
+  - name: build-out-repo
+  
+outputs:
+  - name: build-output
+
+run:
+  path: sh
+  args:
+  - -exc
+  - |
+    whoami
+    env
+    ls -la
+    sh build-out-repo/ci/tasks/build-gradle.sh
