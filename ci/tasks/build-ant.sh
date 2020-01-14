@@ -10,4 +10,6 @@ ls -la target/
 
 cd ..
 
-cp -r source-repo/target build-output/
+mkdir -p build-output/target
+
+cp -r source-repo/target/*.?ar build-output/target/
