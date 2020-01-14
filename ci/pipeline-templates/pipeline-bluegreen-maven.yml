@@ -2,7 +2,7 @@ groups:
 - name: main
   jobs:
   - build-deploy-new-app
-  - map-original-route-to-new-app
+  - switch-route-between-old-and-new
 
 resource_types:
 - name: cf-cli-resource
