@@ -3,9 +3,13 @@ platform: linux
 
 image_resource:
   type: docker-image
-  source:
-    repository: maven
+#  source:
+#    repository: maven
+#    tag: 'latest'
+  source:    
+    repository: 10.197.37.26:5000/maven
     tag: 'latest'
+    insecure_registries: [ "10.193.193.200:5000" ]    
 
 inputs:
   - name: source-repo
