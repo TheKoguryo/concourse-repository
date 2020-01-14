@@ -13,3 +13,4 @@ cd ..
 mkdir -p build-output/target
 
 cp -r source-repo/target/*.?ar build-output/target/
+cp -r source-repo/target/*.?ar build-output/
