@@ -77,3 +77,24 @@ jobs:
       app_name: {{appname-new}}
       domain: {{pws-app-domain}}
       hostname: {{appname}}
+  - put: cf-rename-app-to-old
+    resource: cf-env
+    params:
+      command: rename
+      app_name: {{appname}}
+      new_app_name: {{appname-old}}
+  - put: cf-rename-newapp-to-app
+    resource: cf-env
+    params:
+      command: rename
+      app_name: {{appname-new}}
+      new_app_name: {{appname}}      
+  - put: cf-unmap-route-from-oldapp
+    resource: cf-env
+    params:
+      command: unmap-route
+      org: {{pws-organization}}
+      space: {{pws-space}}
+      app_name: {{appname-old}}
+      domain: {{pws-app-domain}}
+      hostname: {{appname}}
