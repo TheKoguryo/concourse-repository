@@ -2,6 +2,7 @@ groups:
 - name: main
   jobs:
   - build-deploy-new-app
+  - map-original-route-to-new-app
 
 resource_types:
 - name: cf-cli-resource
@@ -62,18 +63,13 @@ jobs:
   public: true
   serial: true
   plan:
-  - get: source-repo
-    trigger: true
   - get: build-out-repo
-    trigger: true
-  - task: prepare-app-manifest
-    file: build-out-repo/ci/tasks/bluegreen/app-manifest-prep.yml
+    trigger: false
+    passed:
+      - build-deploy-new-app
+  - put: cf-map-route
+    resource: cf-env
     params:
-      app_name: {{appname}}    
-      app_domain: {{pws-app-domain}}
-  - task: build
-    file: build-out-repo/ci/tasks/build-maven.yml      
-  - put: PCF
-    params:
-      manifest: source-repo/manifest-new.yml
-      path: build-output/*.jar
+      command: map-route
+      app_name: {{appname}}
+      domain: {{pws-app-domain}}
