@@ -52,6 +52,7 @@ jobs:
     file: build-out-repo/ci/tasks/bluegreen/app-manifest-prep.yml
     params:
       app_name: {{appname}}    
+      app_name_new: {{appname-new}} 
       app_domain: {{pws-app-domain}}
   - task: build
     file: build-out-repo/ci/tasks/build-maven.yml      
@@ -73,6 +74,6 @@ jobs:
       command: map-route
       org: {{pws-organization}}
       space: {{pws-space}}
-      app_name: {{appname}}
+      app_name: {{appname-new}}
       domain: {{pws-app-domain}}
       hostname: {{appname}}
