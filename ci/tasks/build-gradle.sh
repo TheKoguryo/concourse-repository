@@ -13,4 +13,4 @@ ls -la build/libs/
 
 cd ..
 
-cp source-repo/build/libs/*.jar build-output/
+cp source-repo/build/libs/*.?ar build-output/
