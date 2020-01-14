@@ -47,7 +47,7 @@ jobs:
   - get: source-repo
     trigger: true
   - get: build-out-repo
-    trigger: true
+    trigger: false
   - task: prepare-app-manifest
     file: build-out-repo/ci/tasks/bluegreen/app-manifest-prep.yml
     params:
@@ -63,8 +63,8 @@ jobs:
   public: true
   serial: true
   plan:
-  - get: build-out-repo
-    trigger: false
+  - get: source-repo
+    trigger: true
     passed:
       - build-deploy-new-app
   - put: cf-map-route
