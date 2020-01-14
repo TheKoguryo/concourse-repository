@@ -60,7 +60,7 @@ jobs:
     params:
       manifest: source-repo/manifest-new.yml
       path: build-output/*.jar
-- name: map-original-route-to-new-app
+- name: switch-route-between-old-and-new
   public: true
   serial: true
   plan:
@@ -81,12 +81,16 @@ jobs:
     resource: cf-env
     params:
       command: rename
+      org: {{pws-organization}}
+      space: {{pws-space}}      
       app_name: {{appname}}
       new_app_name: {{appname-old}}
   - put: cf-rename-newapp-to-app
     resource: cf-env
     params:
       command: rename
+      org: {{pws-organization}}
+      space: {{pws-space}}      
       app_name: {{appname-new}}
       new_app_name: {{appname}}      
   - put: cf-unmap-route-from-oldapp
