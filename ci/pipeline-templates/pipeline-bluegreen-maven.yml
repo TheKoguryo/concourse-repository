@@ -83,6 +83,13 @@ jobs:
       domain: {{pws-app-domain}}
       hostname: {{appname}}
   - try:
+      put: cf-delete-old-app
+      resource: cf-env
+      params:
+        command: delete
+        app_name: {{appname-old}}
+        delete_mapped_routes: true
+  - try:
       put: cf-rename-orginal-app-name-to-old
       resource: cf-env
       params:
