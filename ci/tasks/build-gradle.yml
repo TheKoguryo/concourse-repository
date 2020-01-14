@@ -3,6 +3,9 @@ platform: linux
 
 image_resource:
   type: docker-image
+  source:
+    repository: gradle
+    tag: 'latest'
 #  source:
 #    repository: 10.193.193.200:5000/gradle
 #    tag: 'latest'
