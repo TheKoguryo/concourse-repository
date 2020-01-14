@@ -7,11 +7,6 @@ env
 echo $appname
 echo $pws-app-domain
 
-cat ./current-app-info/current-app.txt
+sed "s/${appname}/${appname}_1/g" source-repo/manifest.yml > build-output/manifest-new.yml
 
-sed "s/APPNAME/$PWS_APP_SUFFIX--$(cat ./current-app-info/next-app.txt)/" ./build-out-repo/manifests/manifest.yml > ./output/manifest.yml
-
-cat ./output/manifest.yml
-
-
-mv ./build-out-repo/output/* ./output
+cat build-output/manifest-new.yml
