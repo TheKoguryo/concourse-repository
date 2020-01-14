@@ -2,7 +2,7 @@ groups:
 - name: main
   jobs:
   - build-deploy-new-app
-  - switch-route-between-old-and-new
+  - map-original-route-to-new-app
 
 resource_types:
 - name: cf-cli-resource
@@ -60,7 +60,7 @@ jobs:
     params:
       manifest: source-repo/manifest-new.yml
       path: build-output/*.jar
-- name: switch-route-between-old-and-new
+- name: map-original-route-to-new-app
   public: true
   serial: true
   plan:
