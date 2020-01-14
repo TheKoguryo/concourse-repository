@@ -40,7 +40,7 @@ jobs:
   - task: prepare-app-manifest
     file: build-out-repo/ci/tasks/bluegreen/app-manifest-prep.yml
     params:
-      appnname: {{pws-app-name}}    
+      app_name: {{appname}}    
       app_domain: {{pws-app-domain}}         
   - put: PCF
     params:
