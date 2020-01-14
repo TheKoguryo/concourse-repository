@@ -9,16 +9,13 @@ resources:
 - name: source-repo
   type: git
   source:
-    branch: master
     uri: {{git-source-repo-uri}}
-  check_every: 10s # for demo
 - name: build-out-repo
   type: git
   source:
     branch: master
     uri: {{git-concourse-repo-uri}}
     disable_ci_skip: true
-  check_every: 10s # for demo
 - name: PCF
   type: cf
   source:
@@ -28,12 +25,24 @@ resources:
     password: {{deploy-password}}
     skip_cert_check: true
     space: {{pws-space}}
-- name: CVE-check
-  type: docker-image
-  source:
-    repository: pivotalservices/docker-concourse-cf-tools
 
 jobs:
+- name: build-deploy-new-app
+  public: true
+  serial: true
+  plan:
+  - get: source-repo
+    trigger: true
+  - get: build-out-repo
+    trigger: true
+  - task: build
+    file: build-out-repo/ci/tasks/build-maven.yml
+  - put: PCF
+    params:
+      manifest: source-repo/manifest.yml
+      path: build-output/*.jar
+      
+      
 - name: build
   serial: true
   public: true
