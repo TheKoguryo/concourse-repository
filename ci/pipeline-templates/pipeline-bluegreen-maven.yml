@@ -71,5 +71,7 @@ jobs:
     resource: cf-env
     params:
       command: map-route
+      organization: {{pws-organization}}
+      space: {{pws-space}}
       app_name: {{appname}}
       domain: {{pws-app-domain}}
