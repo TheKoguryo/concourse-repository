@@ -2,6 +2,11 @@
 
 set -xe
 
+env
+
+echo $appname
+echo $pws-app-domain
+
 cat ./current-app-info/current-app.txt
 
 sed "s/APPNAME/$PWS_APP_SUFFIX--$(cat ./current-app-info/next-app.txt)/" ./build-out-repo/manifests/manifest.yml > ./output/manifest.yml
