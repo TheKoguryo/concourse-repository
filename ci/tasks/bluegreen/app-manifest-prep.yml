@@ -9,7 +9,6 @@ image_resource:
 
 inputs:
 - name: build-out-repo
-- name: current-app-info
 
 outputs:
 - name: output
