@@ -8,8 +8,9 @@ image_resource:
     tag: "latest"
 
 inputs:
+  - name: source-repo
   - name: build-out-repo
-
+  
 outputs:
   - name: build-output
 
