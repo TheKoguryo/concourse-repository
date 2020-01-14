@@ -77,14 +77,15 @@ jobs:
       app_name: {{appname-new}}
       domain: {{pws-app-domain}}
       hostname: {{appname}}
-  - put: cf-rename-app-to-old
-    resource: cf-env
-    params:
-      command: rename
-      org: {{pws-organization}}
-      space: {{pws-space}}      
-      app_name: {{appname}}
-      new_app_name: {{appname-old}}
+  - try:
+      put: cf-rename-app-to-old
+      resource: cf-env
+      params:
+        command: rename
+        org: {{pws-organization}}
+        space: {{pws-space}}      
+        app_name: {{appname}}
+        new_app_name: {{appname-old}}
   - put: cf-rename-newapp-to-app
     resource: cf-env
     params:
