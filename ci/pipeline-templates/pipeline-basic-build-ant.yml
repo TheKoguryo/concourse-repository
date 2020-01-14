@@ -33,5 +33,4 @@ jobs:
     file: build-out-repo/ci/tasks/build-ant.yml
   - put: PCF
     params:
-      manifest: source-repo/manifest.yml
-      path: build-output
+      manifest: build-output/manifest.yml
