@@ -33,14 +33,14 @@ jobs:
     trigger: true
   - get: build-out-repo
     trigger: true
-  - task: build
-    file: build-out-repo/ci/tasks/build-maven.yml
   - task: prepare-app-manifest
     file: build-out-repo/ci/tasks/bluegreen/app-manifest-prep.yml
     params:
       app_name: {{appname}}    
-      app_domain: {{pws-app-domain}}         
+      app_domain: {{pws-app-domain}}
+  - task: build
+    file: build-out-repo/ci/tasks/build-maven.yml      
   - put: PCF
     params:
-      manifest: source-repo/manifest.yml
+      manifest: source-repo/manifest-new.yml
       path: build-output/*.jar
