@@ -8,10 +8,10 @@ image_resource:
     tag: "latest"
 
 inputs:
-- name: build-out-repo
+  - name: build-out-repo
 
 outputs:
-- name: output
+  - name: build-output
 
 run:
   path: sh
