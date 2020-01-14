@@ -13,7 +13,7 @@ resource_types:
   source:    
     repository: 10.197.37.26:5000/cf-cli-resource
     tag: 'latest'
-    insecure_registries: [ "10.193.193.200:5000" ]     
+    insecure_registries: [ "10.197.37.26:5000" ]     
     
     
 resources:
