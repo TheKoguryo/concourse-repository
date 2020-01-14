@@ -14,4 +14,4 @@ outputs:
 - name: output
 
 run:
-  path: build-out-repo/ci/tasks/app-manifest-prep.sh
+  path: build-out-repo/ci/tasks/bluegreen/app-manifest-prep.sh
