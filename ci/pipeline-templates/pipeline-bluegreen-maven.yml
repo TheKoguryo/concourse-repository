@@ -68,7 +68,7 @@ jobs:
     trigger: true
     passed:
       - build-deploy-new-app
-  - put: cf-map-route
+  - put: cf-map-orginal-route-to-new-app
     resource: cf-env
     params:
       command: map-route
@@ -78,7 +78,7 @@ jobs:
       domain: {{pws-app-domain}}
       hostname: {{appname}}
   - try:
-      put: cf-rename-app-to-old
+      put: cf-rename-orginal-app-name-to-old
       resource: cf-env
       params:
         command: rename
@@ -86,7 +86,7 @@ jobs:
         space: {{pws-space}}      
         app_name: {{appname}}
         new_app_name: {{appname-old}}
-  - put: cf-rename-newapp-to-app
+  - put: cf-rename-new-app-to-orginal-app-name
     resource: cf-env
     params:
       command: rename
@@ -94,7 +94,7 @@ jobs:
       space: {{pws-space}}      
       app_name: {{appname-new}}
       new_app_name: {{appname}}      
-  - put: cf-unmap-route-from-oldapp
+  - put: cf-unmap-orginal-route-from-old-app
     resource: cf-env
     params:
       command: unmap-route
@@ -103,3 +103,12 @@ jobs:
       app_name: {{appname-old}}
       domain: {{pws-app-domain}}
       hostname: {{appname}}
+  - put: cf-unmap-temporary-route-from-new-app
+    resource: cf-env
+    params:
+      command: unmap-route
+      org: {{pws-organization}}
+      space: {{pws-space}}
+      app_name: {{appname}}
+      domain: {{pws-app-domain}}
+      hostname: {{appname-new}}      
