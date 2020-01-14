@@ -10,9 +10,6 @@ image_resource:
 inputs:
   - name: source-repo
   - name: build-out-repo
-  
-outputs:
-  - name: build-output
 
 run:
   path: sh
