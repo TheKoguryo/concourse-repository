@@ -14,3 +14,4 @@ mkdir -p build-output/target
 
 cp -r source-repo/target/*.?ar build-output/target/
 cp -r source-repo/target/*.?ar build-output/
+cp -r source-repo/manifest.yml build-output/
