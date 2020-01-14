@@ -87,6 +87,8 @@ jobs:
       resource: cf-env
       params:
         command: delete
+        org: {{pws-organization}}
+        space: {{pws-space}}        
         app_name: {{appname-old}}
         delete_mapped_routes: true
   - try:
