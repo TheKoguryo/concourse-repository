@@ -13,7 +13,7 @@ cat > $MAVEN_CONFIG/settings.xml <<EOF
     <mirror>
       <id>central</id>
       <name>central</name>
-      <url>http://10.193.193.26:8081/nexus/content/repositories/thirdparty/</url>
+      <url>http://10.197.37.26:8081/nexus/content/repositories/thirdparty/</url>
       <mirrorOf>*</mirrorOf>
     </mirror>
   </mirrors>
