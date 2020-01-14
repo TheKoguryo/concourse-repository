@@ -34,4 +34,4 @@ jobs:
   - put: PCF
     params:
       manifest: source-repo/manifest.yml
-      path: build-output/*.jar
+      path: build-output
