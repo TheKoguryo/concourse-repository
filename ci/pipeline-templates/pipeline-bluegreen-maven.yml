@@ -94,15 +94,16 @@ jobs:
       space: {{pws-space}}      
       app_name: {{appname-new}}
       new_app_name: {{appname}}      
-  - put: cf-unmap-orginal-route-from-old-app
-    resource: cf-env
-    params:
-      command: unmap-route
-      org: {{pws-organization}}
-      space: {{pws-space}}
-      app_name: {{appname-old}}
-      domain: {{pws-app-domain}}
-      hostname: {{appname}}
+  - try:
+      put: cf-unmap-orginal-route-from-old-app
+      resource: cf-env
+      params:
+        command: unmap-route
+        org: {{pws-organization}}
+        space: {{pws-space}}
+        app_name: {{appname-old}}
+        domain: {{pws-app-domain}}
+        hostname: {{appname}}
   - put: cf-unmap-temporary-route-from-new-app
     resource: cf-env
     params:
