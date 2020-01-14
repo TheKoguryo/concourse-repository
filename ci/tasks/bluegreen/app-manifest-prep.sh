@@ -4,9 +4,9 @@ set -e -x
 
 env
 
-echo $appname
-echo $pws-app-domain
+echo $app_name
+echo $app_domain
 
-sed "s/${appname}/${appname}_1/g" source-repo/manifest.yml > build-output/manifest-new.yml
+sed "s/${app_name}/${app_name}-new/g" source-repo/manifest.yml > build-output/manifest-new.yml
 
 cat build-output/manifest-new.yml
