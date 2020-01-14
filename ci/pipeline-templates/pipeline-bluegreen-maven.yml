@@ -3,6 +3,13 @@ groups:
   jobs:
   - build-deploy-new-app
 
+resource_types:
+- name: cf-cli-resource
+  type: docker-image
+  source:
+    repository: nulldriver/cf-cli-resource
+    tag: latest
+    
 resources:
 - name: source-repo
   type: git
@@ -23,9 +30,35 @@ resources:
     password: {{deploy-password}}
     skip_cert_check: true
     space: {{pws-space}}
+- name: cf-env
+  type: cf-cli-resource
+  source:
+    api: {{pws-api}}
+    username: {{deploy-username}}
+    password: {{deploy-password}}
+    skip_cert_check: true    
 
 jobs:
 - name: build-deploy-new-app
+  public: true
+  serial: true
+  plan:
+  - get: source-repo
+    trigger: true
+  - get: build-out-repo
+    trigger: true
+  - task: prepare-app-manifest
+    file: build-out-repo/ci/tasks/bluegreen/app-manifest-prep.yml
+    params:
+      app_name: {{appname}}    
+      app_domain: {{pws-app-domain}}
+  - task: build
+    file: build-out-repo/ci/tasks/build-maven.yml      
+  - put: PCF
+    params:
+      manifest: source-repo/manifest-new.yml
+      path: build-output/*.jar
+- name: map-original-route-to-new-app
   public: true
   serial: true
   plan:
