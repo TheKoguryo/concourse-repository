@@ -75,3 +75,4 @@ jobs:
       space: {{pws-space}}
       app_name: {{appname}}
       domain: {{pws-app-domain}}
+      hostname: {{appname}}
