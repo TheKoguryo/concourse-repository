@@ -1,0 +1,69 @@
+---
+resource_types:
+- name: cf-cli-resource
+  type: docker-image
+#  source:
+#    repository: nulldriver/cf-cli-resource
+#    tag: latest
+  source:    
+    repository: 172.16.25.53:5000/cf-cli-resource-rev
+    tag: '1.0.1'
+    insecure_registries: [ "172.16.25.53:5000" ]     
+
+resources:
+- name: source-repo
+  type: git
+  source:
+    uri: {{git-source-repo-uri}}
+- name: build-out-repo
+  type: git
+  source:
+    branch: master
+    uri: {{git-concourse-repo-uri}}
+    disable_ci_skip: true
+- name: PCF
+  type: cf
+  source:
+    api: {{pws-api}}
+    organization: {{pws-organization}}
+    username: {{deploy-username}}
+    password: {{deploy-password}}
+    skip_cert_check: true
+    space: {{pws-space}}
+- name: cf-env
+  type: cf-cli-resource
+  source:
+    api: {{pws-api}}
+    username: {{deploy-username}}
+    password: {{deploy-password}}
+    skip_cert_check: true 
+    
+
+jobs:
+- name: build-deploy
+  public: true
+  serial: true
+  plan:
+  - get: source-repo
+    trigger: true
+  - get: build-out-repo
+    trigger: true
+  - task: nginx-prescript
+    file: build-out-repo/ci/tasks/nginx-prescript.yml
+  - put: PCF
+    params:
+      manifest: source-repo/manifest.yml
+      path: source-repo
+  - try:
+      put: cf-add-network-policy
+      resource: cf-env
+      params:
+        command: add-network-policy
+        org: {{pws-organization}}
+        space: {{pws-space}}        
+        source_app: {{appname}}
+        destination_app: {{destination_appname}}
+        destination_space_name: {{destination_space_name}}  
+        destination_org_name: {{destination_org_name}}
+        protocol: tcp
+        port: 8080
