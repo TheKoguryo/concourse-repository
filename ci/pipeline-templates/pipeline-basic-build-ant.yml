@@ -47,3 +47,4 @@ jobs:
     params:
       command: zero-downtime-push
       manifest: build-output/manifest.yml
+      current_app_name: {{appname}}
