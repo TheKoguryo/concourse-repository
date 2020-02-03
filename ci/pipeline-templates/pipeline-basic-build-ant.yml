@@ -6,9 +6,9 @@ resource_types:
 #    repository: nulldriver/cf-cli-resource
 #    tag: latest
   source:    
-    repository: 172.16.25.53:5000/cf-cli-resource-rev
+    repository: 10.197.37.26:5000/cf-cli-resource-rev
     tag: '1.0.1'
-    insecure_registries: [ "172.16.25.53:5000" ]     
+    insecure_registries: [ "10.197.37.26:5000" ]     
     
 resources:
 - name: source-repo
