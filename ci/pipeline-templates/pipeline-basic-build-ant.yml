@@ -1,4 +1,15 @@
 ---
+resource_types:
+- name: cf-cli-resource
+  type: docker-image
+#  source:
+#    repository: nulldriver/cf-cli-resource
+#    tag: latest
+  source:    
+    repository: 172.16.25.53:5000/cf-cli-resource-rev
+    tag: '1.0.1'
+    insecure_registries: [ "172.16.25.53:5000" ]     
+    
 resources:
 - name: source-repo
   type: git
@@ -25,6 +36,8 @@ resources:
     api: {{pws-api}}
     username: {{deploy-username}}
     password: {{deploy-password}}
+    org: {{pws-organization}}    
+    space: {{pws-space}}    
     skip_cert_check: true     
 
 jobs:
