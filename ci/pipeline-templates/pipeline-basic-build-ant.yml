@@ -21,15 +21,6 @@ resources:
     branch: master
     uri: {{git-concourse-repo-uri}}
     disable_ci_skip: true
-- name: PCF
-  type: cf
-  source:
-    api: {{pws-api}}
-    organization: {{pws-organization}}
-    username: {{deploy-username}}
-    password: {{deploy-password}}
-    skip_cert_check: true
-    space: {{pws-space}}
 - name: cf-env
   type: cf-cli-resource
   source:
@@ -51,9 +42,6 @@ jobs:
     trigger: true
   - task: build
     file: build-out-repo/ci/tasks/build-ant.yml
-#  - put: PCF
-#    params:
-#      manifest: build-output/manifest.yml
   - put: cf-zero-downtime-push
     resource: cf-env
     params:
