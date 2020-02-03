@@ -19,6 +19,13 @@ resources:
     password: {{deploy-password}}
     skip_cert_check: true
     space: {{pws-space}}
+- name: cf-env
+  type: cf-cli-resource
+  source:
+    api: {{pws-api}}
+    username: {{deploy-username}}
+    password: {{deploy-password}}
+    skip_cert_check: true     
 
 jobs:
 - name: build-deploy
