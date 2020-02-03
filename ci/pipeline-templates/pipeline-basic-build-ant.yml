@@ -51,6 +51,11 @@ jobs:
     trigger: true
   - task: build
     file: build-out-repo/ci/tasks/build-ant.yml
-  - put: PCF
+#  - put: PCF
+#    params:
+#      manifest: build-output/manifest.yml
+  - put: cf-zero-downtime-push
+    resource: cf-env
     params:
+      command: zero-downtime-push
       manifest: build-output/manifest.yml
